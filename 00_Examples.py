@@ -135,7 +135,7 @@ show(img)
 
 
 
-img = plt.imread("C:\\Users\\Hadrien Bodin\\Documents\\00_Production\\Cours\\Mines_PE\\numerique\\notebooks\\data\\les-mines.jpg")
+img = plt.imread("adresse de l'imag")
 
 print(img.flags.writeable)
 import copy
@@ -152,7 +152,7 @@ print(img.min())
 print(np.max(img))
 show(img[:10,:10])
 
-img = plt.imread("C:\\Users\\Hadrien Bodin\\Documents\\00_Production\\Cours\\Mines_PE\\numerique\\notebooks\\data\\les-mines.jpg")
+img = plt.imread("adresse de l'image")
 for i in [2,5,10,20]:
     show(img[::i,::i])
     plt.show()
@@ -173,152 +173,3 @@ show_window(10,20)
 show_window(200,300)
 
 plt.imshow(img[-1:,-1:,:])
-
-
-# le but est de ne pas utiliser de fct numpy
-def unravel_index(index, shape):
-    size = 1
-    for item in shape:
-        size *= item
-    coords = []
-    
-    for dim_size in shape:
-        size = size //dim_size
-        coords.append(index // size)
-        index = index % size
-    
-    return np.array(coords)
-
-
-
-np.ones((3,5), dtype=np.uint8)
-
-np.random.randint(0,256,(3,5), np.uint8)
-
-l = ['un', 'deux', 'trois', 'cinq']
-tab = np.array(l)
-tab[0] = 'quatre'
-
-tab
-
-tab = np.ones((6))
-tab
-
-tab1 = np.reshape(tab, (3,2))
-tab1
-
-tab[0]=2
-tab1
-
-type(math.sin)
-
-import numpy as np
-A=np.arange(1,31) * 2
-B = np.reshape(A,(2,5,3))
-B
-
-tab = np.arange(30)
-
-tab
-
-tab[::-1]
-
-a = np.arange(1,13).reshape(2,2,3)*2
-print(a)
-print(a.base)
-
-
-#b = a[::-1,::-1,::-1]
-b=np.flip(a)
-print(b)
-print(b.base)
-print()
-print(b.base is a)
-
-lines, cols = np.indices((4, 4))
-
-cols
-
-(cols+1)%2
-
-
-# +
-
-def block_checkers(n, k):
-    Y,X = np.indices((n*k,n*k))
-    Yk, Xk = (Y//k)%2, (X//k)%2
-    return (((Xk == 0) & (Yk == 1)) | ((Xk == 1) & (Yk == 0))).astype(int)
-
-
-# -
-
-n=4
-k=3
-Y,X = np.indices((n*k,n*k))
-Yk, Xk = (Y//k)%2, (X//k)%2
-(Xk+Yk)%2
-
-import numpy as np
-def stairs(n):
-    Y,X = np.indices((2*n+1,2*n+1))
-    out = (X+Y)*(X<n+1)*(Y<n+1)
-    out += (X[:,::-1]+Y[::-1,:])*(X>=n+1)*(Y>=n+1)
-    out += (X + Y[::-1,:])*(X<n+1)*(Y>=n+1)
-    out += (X[:,::-1] + Y)*(X>=n+1)*(Y<n+1)
-    return out
-print(stairs(4))
-
-n=3
-Y,X = np.indices((2*n+1,2*n+1))
-#out = (X+Y)*(X<n+1)*(Y<n+1)
-(X+Y)*(X<n+1)*(Y<n+1)
-X[:,::-1]
-
-n=4
-k=3
-Y,X = np.indices((n*k,n*k))
-
-Y
-
-((Y//k) + (X//k))%2
-
-# ## Broadcasting
-
-# +
-import numpy as np
-mat = np.ones((3,4))
-
-mat + 1
-
-# -
-
-import numpy as np
-mat = np.ones((3,4))
-mat += np.ones((1,4))
-mat
-
-import pandas as pd
-pd.options.display.precision = 2
-
-df = pd.read_csv('data/titanic.csv')
-
-df.describe()
-
-df.describe(include='all')
-
-df['Age']
-
-df.head(8)
-
-df = pd.read_csv('data/titanic.csv')
-df = df.set_index('PassengerId')
-df
-
-df['Name'][552]
-
-df = pd.read_csv('data/titanic.csv')
-df.index
-
-
-df = df.set_index('PassengerId')
-df.index
