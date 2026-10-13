@@ -244,3 +244,160 @@ girls = (df['Age'] < 12) & (df['Sex'] == 'female')
 girls.sum()
 
 df[girls]
+
+df = pd.read_csv('data/titanic.csv')
+girls = (df['Age'] < 12) & (df['Sex'] == 'female')
+girls.sum()
+
+df[girls]
+
+children = df['Age'] < 12
+children.value_counts()
+
+df['Name'].value_counts()
+
+(~children).sum()
+
+df['Age'].isna()
+
+df['Age'].isna().sum()
+
+df.isna().sum()
+
+df.isna().sum(axis=1)
+
+# # Exo Agregation
+
+df.isna().sum().sum()
+
+import numpy as np
+np.sum(df.isna().to_numpy())
+df.isna().to_numpy().sum()
+
+# # Exo type colonnes
+
+import pandas as pd
+df = pd.read_csv('data/titanic.csv')
+cols = ['Survived', 'Pclass', 'Sex', 'Embarked']
+for col in cols:
+    print(col)
+    print(df[col].unique())
+
+dft=df[cols]
+dft.dtypes
+
+# # Exo stats
+
+import pandas as pd
+df = pd.read_csv('data/titanic.csv')
+
+df.isna().sum().sum()
+
+print(len(df.Pclass.unique()))
+print(df.Pclass.value_counts())
+
+df.Sex.value_counts()/len(df)
+
+df.Sex.value_counts(normalize=True)
+
+rate = ((df['Age'] >= 20) & (df['Age'] <= 40)).sum()/len(df)
+print(rate)
+
+df.Survived.describe()
+
+(df.Survived == 1).mean()
+
+for id_class in [1,2,3]:
+    print(f"class_{id_class}")
+    for sex in ['male', 'female']:
+        print(sex)
+        print(((df['Sex']==sex) & (df['Pclass']==id_class) & (df['Survived']==1)).sum() /
+             ((df['Sex']==sex) & (df['Pclass']==id_class)).sum())
+
+# # Copie
+
+df = pd.read_csv('data/titanic.csv', index_col='PassengerId')
+df2 = df.copy()
+df2.loc[552, 'Age'] = 100
+df2.head(1)
+
+df.head(1)
+
+# # Ajoute colonne
+
+df['Deceased'] = 1 - df['Survived']
+df.head(3)
+
+df = pd.read_csv('data/titanic.csv')#, index_col='PassengerId')
+df = df.set_index('PassengerId')
+print(df.loc[552, 'Name'])
+print(df.iloc[0, 2])
+
+# # Sélection multiple
+
+# comme avec un tableau numpy,
+# si on ne précise pas les colonnes
+# on les obtient toutes
+df.loc[552]
+
+# on peut passer des listes à loc/iloc
+# pour sélectionner explicitement
+# plusieurs lignes / colonnesa
+df.loc[[552, 832]]
+
+df.loc[[552, 832], ['Name', 'Pclass']]
+
+# à nouveau pour les indices de colonnes
+# la colonne d'index ne compte pas
+df.iloc[[0, -1], [2, 1]]
+
+# +
+# pour sélectionner plusieurs colonnes
+# le plus simple c'est quand même cette forme
+df[['Name', 'Pclass']]
+
+df[(df['Pclass'] != 1) & (df['Age']>=70)]
+# -
+
+# mais bien sûr on peut aussi faire
+df.loc[:, ['Name', 'Pclass']]
+df[df['Sex']=='female']
+
+df.loc[552, 'Name'] = 'test'
+df
+
+# # Exo passageres femmes 1ere classe
+
+# +
+# le code
+df = pd.read_csv('data/titanic.csv', index_col='PassengerId')
+
+df_survived = (df['Survived'] == 1)
+print(   df_survived.sum()/len(df)   )
+
+( ((df['Sex'] == 'female') & (df['Survived'] == 1) & (df['Pclass'] == 1)).sum()
+  /((df['Sex'] == 'female') & (df['Pclass'] == 1)).sum()   )
+# -
+
+# # group by
+
+import pandas as pd
+df = pd.read_csv('data/titanic.csv', index_col='PassengerId')
+by_sex = df.groupby(by='Sex')
+by_sex
+
+by_sex_class = df.groupby(by=['Sex', 'Pclass'])
+
+by_sex_class.size().index
+
+pd.cut(df['Age'], bins=[0, 12, 19, 55, 100])
+
+df = pd.read_csv('data/titanic.csv', index_col='PassengerId')
+df['Age-class'] = pd.cut(
+    df['Age'],
+    bins=[0, 12, 19, 55, 100],
+    labels=['child', ' young', 'adult', '55+'])
+df.head()
+
+df.groupby(['Age-class', 'Pclass'])['Survived'].mean()
+
