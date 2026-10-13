@@ -173,3 +173,74 @@ show_window(10,20)
 show_window(200,300)
 
 plt.imshow(img[-1:,-1:,:])
+
+# # PANDAS
+
+import pandas as pd
+pd.options.display.precision = 2
+
+df = pd.read_csv('data/titanic.csv')
+
+df
+
+df.describe()
+
+df.describe(include='all')
+
+df.columns
+
+df['Age']
+
+df.head(8)
+
+df = pd.read_csv('data/titanic.csv')
+df = df.set_index('PassengerId')
+df
+
+df['Name']
+
+df['Name'][552]
+
+df = pd.read_csv('data/titanic.csv')
+df.index
+
+
+df = df.set_index('PassengerId')
+df.index
+
+# # EXO
+
+df = pd.read_csv('data/petit-titanic.csv')
+df.head(2)
+
+df = pd.read_csv('data/petit-titanic.csv', sep=';')
+df.head(2)
+
+df = pd.read_csv('data/petit-titanic.csv', sep=';', header=None)
+df.head(2)
+
+df_ref = pd.read_csv('data/titanic.csv')
+print(df_ref.columns)
+df = pd.read_csv('data/petit-titanic.csv', sep=';', names=df_ref.columns)
+df.head(2)
+
+columns = ['Identifiant', 'Survécu', 'Pclass',
+           'Nom', 'Genre', 'Age', 'SibSp', 'Parch',
+           'Ticket', 'Tarif', 'Cabine', 'Embarquement']
+df.columns = columns
+df.head(2)
+
+# # MASQUES
+
+df = pd.read_csv('data/titanic.csv')
+df[df['Age']<12]
+
+df = pd.read_csv('data/titanic.csv')
+girls = (df['Age'] < 12) & (df['Sex'] == 'female')
+girls
+
+df = pd.read_csv('data/titanic.csv')
+girls = (df['Age'] < 12) & (df['Sex'] == 'female')
+girls.sum()
+
+df[girls]
